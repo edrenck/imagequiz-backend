@@ -68,11 +68,7 @@ app.get("/scores/:quiztaker/:quizid", (req, res) => {
 
   let scores = api.getScores(email, id);
 
-  if (scores.length === 0) {
-    res.json({ message: "No scores found." });
-  } else {
-    res.json(scores);
-  }
+  res.json(scores);
 });
 
 app.listen(port, () => console.log(`Express started on port ${port}`));
