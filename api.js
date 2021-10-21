@@ -9,7 +9,6 @@ const register = (name, email, password) => {
   });
   if (userExists) return true;
   let newUser = { name, email, password };
-  console.log(newUser);
   customers.push(newUser);
   return false;
 };
@@ -18,8 +17,6 @@ const login = (email, password) => {
   let user = customers.find(
     (x) => x.email.toLowerCase() === email.toLowerCase()
   );
-
-  console.log(user);
 
   if (user) {
     return user.password === password;
@@ -56,8 +53,6 @@ const getScores = (quizTaker, quizId) => {
       score.quizTaker.toLowerCase() === quizTaker.toLowerCase() &&
       score.quizId === quizId
   );
-
-  console.log(previousScores);
 
   return previousScores;
 };
