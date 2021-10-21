@@ -15,5 +15,9 @@
   "bugs": {
     "url": "https://github.com/edrenck/imagequiz-backend/issues"
   },
-  "homepage": "https://github.com/edrenck/imagequiz-backend#readme"
+  "homepage": "https://github.com/edrenck/imagequiz-backend#readme",
+  "dependencies": {
+    "cors": "^2.8.5",
+    "express": "^4.17.1"
+  }
 }
