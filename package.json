@@ -1,0 +1,19 @@
+{
+  "name": "imagequiz-backend",
+  "version": "1.0.0",
+  "description": "Backend for edrenck.github.io/imagequiz",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/edrenck/imagequiz-backend.git"
+  },
+  "author": "Edwin Renck",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/edrenck/imagequiz-backend/issues"
+  },
+  "homepage": "https://github.com/edrenck/imagequiz-backend#readme"
+}
