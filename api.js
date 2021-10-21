@@ -43,7 +43,7 @@ const getQuiz = (id) => {
 };
 
 const pushScore = (quizTaker, quizId, score) => {
-  if (quiztTaker == null || quizId == null || score == null) return;
+  if (quizTaker == null || quizId == null || score == null) return;
   let date = Date.now();
   scores.push({ quizTaker, quizId, score, date });
 };
