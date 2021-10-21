@@ -4,6 +4,7 @@ const cors = require("cors");
 const { response } = require("express");
 
 const app = express();
+const port = process.env.PORT || 3000;
 
 app.use(express.json());
 app.use(cors());
@@ -75,5 +76,4 @@ app.get("/scores/:quiztaker/:quizid", (req, res) => {
   }
 });
 
-app.listen(80);
-console.log("Express started on port 3000.");
+app.listen(port, () => console.log(`Express started on port ${port}`));
