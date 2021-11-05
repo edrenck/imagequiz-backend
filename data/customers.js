@@ -1,4 +1,3 @@
-
 let customers = [];
 
 // When you add a new record to the customer, you should use the follwoing signature for the object

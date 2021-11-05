@@ -1,6 +1,7 @@
 const express = require("express");
 const api = require("./api");
 const cors = require("cors");
+const { response } = require("express");
 
 const app = express();
 const port = process.env.PORT || 3000;
@@ -13,13 +14,13 @@ app.post("/register", (request, response) => {
   let email = request.body.email;
   let password = request.body.password;
 
-  let alreadyExists = api.register(name, email, password);
-
-  if (alreadyExists) {
-    response.status(403).json({ message: "Customer already exists." });
-  } else {
-    response.json({ message: "Customer added." });
-  }
+  api
+    .addCustomer(name, email, password)
+    .then((x) => response.json({ message: "Customer added." }))
+    .catch((e) => {
+      console.log(e);
+      response.status(403).json({ message: "Customer already exists." });
+    });
 });
 
 app.post("/login", (req, res) => {
@@ -38,6 +39,12 @@ app.get("/flowers", (req, res) => {
   res.json(flowers);
 });
 
+app.post("/flowers", (req, res) => {
+  let name = req.body.name;
+  let picture = req.body.picture;
+  api.setFlower(name, picture).then((x) => res.json(x));
+});
+
 app.get("/quizzes", (req, res) => {
   let quizzes = api.getQuizzes();
   res.json(quizzes);
@@ -51,6 +58,12 @@ app.get("/quiz/:id", (req, res) => {
   } else {
     res.json(quiz);
   }
+});
+
+app.post("/addquiz", (req, res) => {
+  let name = req.body.name;
+  let category = req.body.category;
+  api.addQuiz(name, category).then((x) => res.json(x));
 });
 
 app.post("/score", (req, res) => {
@@ -69,6 +82,29 @@ app.get("/scores/:quiztaker/:quizid", (req, res) => {
   let scores = api.getScores(email, id);
 
   res.json(scores);
+});
+
+app.get("/customers", (req, res) => {
+  api
+    .getCustomers()
+    .then((x) => res.json(x))
+    .catch((e) => {
+      console.log(e);
+      res
+        .status(500)
+        .json({ message: "There was an error in retrieving customers" });
+    });
+});
+
+app.post("/category", (req, res) => {
+  const category = req.body.category;
+  api.addCategory(category);
+  res.json({ message: "hi" });
+});
+
+app.get("/category/:category", (req, res) => {
+  const category = req.params.category;
+  const cat = api.getCategory(category).then((x) => res.json(x));
 });
 
 app.listen(port, () => console.log(`Express started on port ${port}`));

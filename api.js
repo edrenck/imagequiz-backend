@@ -1,67 +1,60 @@
-const { customers } = require("./customers");
-const { flowers } = require("./flowers");
-const { quizzes } = require("./data");
-const { scores } = require("./scores");
+const db = require("./data/db");
 
-const register = (name, email, password) => {
-  let userExists = customers.find((user) => {
-    return user.email.toLowerCase() === email.toLowerCase();
-  });
-  if (userExists) return true;
-  let newUser = { name, email, password };
-  customers.push(newUser);
-  return false;
+const addCustomer = (name, email, password) => {
+  return db.addCustomer(name, email, password);
+};
+const getCustomers = () => {
+  return db.getCustomers();
+};
+const getQuiz = (id) => {
+  return db.getQuiz(id);
+};
+const getQuizzes = () => {
+  return db.getQuizzes();
 };
 
-const login = (email, password) => {
-  let user = customers.find(
-    (x) => x.email.toLowerCase() === email.toLowerCase()
-  );
+const addQuiz = (name, category) => {
+  name = name.toLowerCase();
+  category = category.toLowerCase();
+  return db.addQuiz(name, category);
+};
 
-  if (user) {
-    return user.password === password;
-  } else {
-    return false;
-  }
+const addCategory = (category) => {
+  category = category.toLowerCase();
+  return db.addCategory(category);
+};
+
+const getCategory = (category) => {
+  category = category.toLowerCase();
+  return db.getCategory(category);
 };
 
 const getFlowers = () => {
-  return flowers;
+  return db.getFlowers();
 };
 
-const getQuizzes = () => {
-  return quizzes;
+const setFlower = (name, picture) => {
+  name = name.toLowerCase();
+  picture = picture.toLowerCase();
+  return db.setFlower(name, picture);
 };
 
-const getQuiz = (id) => {
-  if (id >= quizzes.length || id < 0) {
-    return [];
-  } else {
-    let quiz = quizzes[id];
-    return quiz;
-  }
+const setQuestions = (picture, choices, answer) => {
+  return db.setQuestions(picture, choices, answer);
 };
 
-const pushScore = (quizTaker, quizId, score) => {
-  if (quizTaker == null || quizId == null || score == null) return;
-  let date = Date.now();
-  scores.push({ quizTaker, quizId, score, date });
+const getQuestions = () => {
+  return db.getQuestions();
 };
 
-const getScores = (quizTaker, quizId) => {
-  let previousScores = scores.filter(
-    (score) =>
-      score.quizTaker.toLowerCase() === quizTaker.toLowerCase() &&
-      score.quizId === quizId
-  );
-
-  return previousScores;
-};
-
-exports.register = register;
-exports.login = login;
-exports.getFlowers = getFlowers;
-exports.getQuizzes = getQuizzes;
+exports.getCustomers = getCustomers;
+exports.addCustomer = addCustomer;
 exports.getQuiz = getQuiz;
-exports.pushScore = pushScore;
-exports.getScores = getScores;
+exports.getQuizzes = getQuizzes;
+exports.addQuiz = addQuiz;
+exports.addCategory = addCategory;
+exports.getCategory = getCategory;
+exports.getFlowers = getFlowers;
+exports.setFlower = setFlower;
+exports.getQuestions = getQuestions;
+exports.setQuestions = setQuestions;
