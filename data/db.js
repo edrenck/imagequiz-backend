@@ -1,12 +1,13 @@
 const { Pool } = require("pg");
 const bcrypt = require("bcrypt");
+require('dotenv').config();
 
 const connectionString =
-  "postgres://wpksywcsmjbpjm:ac413a1659fcd51c348d91ea9e57f5f69aa85f4dad8bb284d5478f06179ce73c@ec2-3-215-83-124.compute-1.amazonaws.com:5432/d4cqf0fihcogeo";
+  `postgres://${process.env.USERNAME}:${process.env.PASSWORD}@${process.env.HOST}:${process.env.PORT}/${process.env.DATABASE}`;
 
 const connection = {
-  connectionString: connectionString,
-  ssl: { rejectUnauthorized: false },
+    connectionString: process.env.DATABASE_URL ? process.env.DATABASE_URL : connectionString,
+    ssl: { rejectUnauthorized: false },
 };
 const pool = new Pool(connection);
 
