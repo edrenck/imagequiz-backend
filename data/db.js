@@ -27,7 +27,7 @@ let addCustomer = (name, email, password) => {
 
 let login = async (email, password) => {
   const result = await pool.query(
-    `select password from imagequiz.customer where email = '${email}'`
+    `select password from imagequiz.customer where email = '${email.toLowerCase()}'`
   );
   if (result.rows.length > 0) {
     const hashedPassword = result.rows[0].password;
