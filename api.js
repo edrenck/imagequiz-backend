@@ -3,12 +3,21 @@ const db = require("./data/db");
 const addCustomer = (name, email, password) => {
   return db.addCustomer(name, email, password);
 };
+
 const getCustomers = () => {
   return db.getCustomers();
 };
+
 const getQuiz = (id) => {
   return db.getQuiz(id);
 };
+
+const login = async (email, password) => {
+  const success = await db.login(email, password);
+  console.log(success);
+  return success;
+};
+
 const getQuizzes = () => {
   return db.getQuizzes();
 };
@@ -64,3 +73,4 @@ exports.setFlower = setFlower;
 exports.getQuestions = getQuestions;
 exports.setQuestion = setQuestion;
 exports.getQuestion = getQuestion;
+exports.login = login;

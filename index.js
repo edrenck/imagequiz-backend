@@ -22,10 +22,10 @@ app.post("/register", (request, response) => {
     });
 });
 
-app.post("/login", (req, res) => {
+app.post("/login", async (req, res) => {
   let email = req.body.email;
   let password = req.body.password;
-  let validLogin = api.login(email, password);
+  let validLogin = await api.login(email, password);
   if (validLogin) {
     res.json({ message: "User logged in succesfully.", isvalid: true });
   } else {
@@ -43,12 +43,12 @@ app.post("/flowers", (req, res) => {
   api.setFlower(name, picture).then((x) => res.json(x));
 });
 
-app.get("/quiz", (req, res) => {
+app.get("/quizzes", (req, res) => {
   let quizzes = api.getQuizzes();
   res.json(quizzes);
 });
 
-app.get("/quiz/:id", (req, res) => {
+app.get("/quizzes/:id", (req, res) => {
   let id = req.params.id;
   let quiz = api.getQuiz(id);
   if (quiz.length === 0) {
@@ -58,7 +58,7 @@ app.get("/quiz/:id", (req, res) => {
   }
 });
 
-app.post("/quiz", (req, res) => {
+app.post("/quizzes", (req, res) => {
   let name = req.body.name;
   let category = req.body.category;
   api.addQuiz(name, category).then((x) => res.json(x));

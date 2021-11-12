@@ -25,6 +25,14 @@ let addCustomer = (name, email, password) => {
   );
 };
 
+let login = async (email, password) => {
+  const result = await pool.query(
+    `select password from imagequiz.customer where email = '${email}'`
+  );
+  const hashedPassword = result.rows[0].password;
+  return await bcrypt.compare(password, hashedPassword);
+};
+
 let getQuizzes = () => {
   return pool.query("select * from imagequiz.quiz");
 };
@@ -108,3 +116,4 @@ exports.setFlower = setFlower;
 exports.setQuestion = setQuestion;
 exports.getQuestions = getQuestions;
 exports.getQuestion = getQuestion;
+exports.login = login;
