@@ -69,7 +69,7 @@ app.get("/scores", async (req, res) => {
   res.json(scores);
 });
 
-app.get("/score/:quiztaker/:quizid", (req, res) => {
+app.get("/scores/:quiztaker/:quizid", (req, res) => {
   let email = req.params.quiztaker;
   let id = Number(req.params.quizid);
 
