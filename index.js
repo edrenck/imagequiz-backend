@@ -11,7 +11,7 @@ app.use(cors());
 app.post("/register", (request, response) => {
   let name = request.body.name;
   let email = request.body.email;
-  let password = request.body.password;
+  let password = String(request.body.password);
 
   api
     .addCustomer(name, email, password)
@@ -24,7 +24,7 @@ app.post("/register", (request, response) => {
 
 app.post("/login", async (req, res) => {
   let email = req.body.email;
-  let password = req.body.password;
+  let password = String(req.body.password);
   let validLogin = await api.login(email, password);
   if (validLogin) {
     res.json({ message: "User logged in succesfully.", isvalid: true });
