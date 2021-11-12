@@ -1,7 +1,6 @@
 const express = require("express");
 const api = require("./api");
 const cors = require("cors");
-const { response } = require("express");
 
 const app = express();
 const port = process.env.PORT || 3000;
@@ -35,8 +34,7 @@ app.post("/login", (req, res) => {
 });
 
 app.get("/flowers", (req, res) => {
-  let flowers = api.getFlowers();
-  res.json(flowers);
+  api.getFlowers().then((x) => res.json(x));
 });
 
 app.post("/flowers", (req, res) => {
@@ -45,7 +43,7 @@ app.post("/flowers", (req, res) => {
   api.setFlower(name, picture).then((x) => res.json(x));
 });
 
-app.get("/quizzes", (req, res) => {
+app.get("/quiz", (req, res) => {
   let quizzes = api.getQuizzes();
   res.json(quizzes);
 });
@@ -60,7 +58,7 @@ app.get("/quiz/:id", (req, res) => {
   }
 });
 
-app.post("/addquiz", (req, res) => {
+app.post("/quiz", (req, res) => {
   let name = req.body.name;
   let category = req.body.category;
   api.addQuiz(name, category).then((x) => res.json(x));
@@ -99,7 +97,7 @@ app.get("/customers", (req, res) => {
 app.post("/category", (req, res) => {
   const category = req.body.category;
   api.addCategory(category);
-  res.json({ message: "hi" });
+  res.json({ message: "Category saved" });
 });
 
 app.get("/category/:category", (req, res) => {
@@ -107,4 +105,22 @@ app.get("/category/:category", (req, res) => {
   const cat = api.getCategory(category).then((x) => res.json(x));
 });
 
+app.get("/question", async (req, res) => {
+  const questions = await api.getQuestions();
+  res.json(questions);
+});
+
+app.get("/question/:id", async (req, res) => {
+  const id = req.params.id;
+  const question = await api.getQuestion(id);
+  res.json(question);
+});
+
+app.post("/question", async (req, res) => {
+  const picture = req.body.picture;
+  const choices = req.body.choices;
+  const answer = req.body.answer;
+  await api.setQuestion(picture, choices, answer);
+  res.json({ message: "Question saved" });
+});
 app.listen(port, () => console.log(`Express started on port ${port}`));

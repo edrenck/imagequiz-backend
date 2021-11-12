@@ -39,12 +39,17 @@ const setFlower = (name, picture) => {
   return db.setFlower(name, picture);
 };
 
-const setQuestions = (picture, choices, answer) => {
-  return db.setQuestions(picture, choices, answer);
+const setQuestion = (picture, choices, answer) => {
+  return db.setQuestion(picture, choices, answer);
 };
 
 const getQuestions = () => {
   return db.getQuestions();
+};
+
+const getQuestion = (id) => {
+  id = Number(id);
+  return db.getQuestion(id);
 };
 
 exports.getCustomers = getCustomers;
@@ -57,4 +62,5 @@ exports.getCategory = getCategory;
 exports.getFlowers = getFlowers;
 exports.setFlower = setFlower;
 exports.getQuestions = getQuestions;
-exports.setQuestions = setQuestions;
+exports.setQuestion = setQuestion;
+exports.getQuestion = getQuestion;

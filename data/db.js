@@ -1,13 +1,14 @@
+require("dotenv").config({ path: "./data/.env" });
 const { Pool } = require("pg");
 const bcrypt = require("bcrypt");
-require('dotenv').config();
 
-const connectionString =
-  `postgres://${process.env.USERNAME}:${process.env.PASSWORD}@${process.env.HOST}:${process.env.PORT}/${process.env.DATABASE}`;
+const connectionString = `postgres://${process.env.DATABASEUSERNAME}:${process.env.PASSWORD}@${process.env.HOST}:${process.env.DATABASEPORT}/${process.env.DATABASE}`;
 
 const connection = {
-    connectionString: process.env.DATABASE_URL ? process.env.DATABASE_URL : connectionString,
-    ssl: { rejectUnauthorized: false },
+  connectionString: process.env.DATABASE_URL
+    ? process.env.DATABASE_URL
+    : connectionString,
+  ssl: { rejectUnauthorized: false },
 };
 const pool = new Pool(connection);
 
@@ -65,17 +66,17 @@ let getCategory = (category) => {
 };
 
 let getFlowers = () => {
-  return pool.query(`select * from imagequiz.flowers`).then((x) => x.rows);
+  return pool.query(`select * from imagequiz.flower`).then((x) => x.rows);
 };
 
 let setFlower = async (name, picture) => {
   await pool.query(
-    `insert into imagequiz.flowers(name, picture) values ('${name}','${picture}')`
+    `insert into imagequiz.flower(name, picture) values ('${name}','${picture}')`
   );
   return await getFlowers();
 };
 
-let setQuestions = (picture, choices, answer) => {
+let setQuestion = (picture, choices, answer) => {
   return pool
     .query(
       "insert into imagequiz.question(picture, choices, answer) values ($1,$2,$3)",
@@ -88,6 +89,13 @@ let getQuestions = () => {
   return pool.query("select * from imagequiz.question").then((x) => x.rows);
 };
 
+let getQuestion = async (id) => {
+  const question = await pool.query(
+    `select * from imagequiz.question where id = ${id}`
+  );
+  return question.rows;
+};
+
 exports.getCustomers = getCustomers;
 exports.addCustomer = addCustomer;
 exports.getQuiz = getQuiz;
@@ -97,5 +105,6 @@ exports.getCategory = getCategory;
 exports.addCategory = addCategory;
 exports.getFlowers = getFlowers;
 exports.setFlower = setFlower;
-exports.setQuestions = setQuestions;
+exports.setQuestion = setQuestion;
 exports.getQuestions = getQuestions;
+exports.getQuestion = getQuestion;
