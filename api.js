@@ -14,12 +14,13 @@ const getQuiz = (id) => {
 
 const login = async (email, password) => {
   const success = await db.login(email, password);
-  console.log(success);
   return success;
 };
 
-const getQuizzes = () => {
-  return db.getQuizzes();
+const getQuizzes = async () => {
+  return await (
+    await db.getQuizzes()
+  ).rows;
 };
 
 const addQuiz = (name, category) => {

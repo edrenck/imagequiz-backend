@@ -43,14 +43,14 @@ app.post("/flowers", (req, res) => {
   api.setFlower(name, picture).then((x) => res.json(x));
 });
 
-app.get("/quizzes", (req, res) => {
-  let quizzes = api.getQuizzes();
+app.get("/quizzes", async (req, res) => {
+  let quizzes = await api.getQuizzes();
   res.json(quizzes);
 });
 
-app.get("/quizzes/:id", (req, res) => {
+app.get("/quizzes/:id", async (req, res) => {
   let id = req.params.id;
-  let quiz = api.getQuiz(id);
+  let quiz = await api.getQuiz(id);
   if (quiz.length === 0) {
     res.json({ message: "Invalid id." });
   } else {
