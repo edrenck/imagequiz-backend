@@ -29,8 +29,11 @@ let login = async (email, password) => {
   const result = await pool.query(
     `select password from imagequiz.customer where email = '${email}'`
   );
-  const hashedPassword = result.rows[0].password;
-  return await bcrypt.compare(password, hashedPassword);
+  if (result.rows.length > 0) {
+    const hashedPassword = result.rows[0].password;
+    return await bcrypt.compare(password, hashedPassword);
+  }
+  return false;
 };
 
 let getQuizzes = () => {
@@ -104,6 +107,23 @@ let getQuestion = async (id) => {
   return question.rows;
 };
 
+let getScores = async () => {
+  return await pool.query(`select * from imagequiz.score`);
+};
+
+let getScore = async (email, id) => {
+  return await pool.query(
+    `select * from imagequiz.score where email = '${email}' and id = ${id}`
+  );
+};
+
+let setScore = async (quizTaker, quizId, score) => {
+  return await pool.query(
+    `insert into imagequiz.score(quizTaker, quizId, score) values ($1, $2, $3)`,
+    [quizTaker, quizId, score]
+  );
+};
+
 exports.getCustomers = getCustomers;
 exports.addCustomer = addCustomer;
 exports.getQuiz = getQuiz;
@@ -117,3 +137,6 @@ exports.setQuestion = setQuestion;
 exports.getQuestions = getQuestions;
 exports.getQuestion = getQuestion;
 exports.login = login;
+exports.getScores = getScores;
+exports.getScore = getScore;
+exports.setScore = setScore;

@@ -62,6 +62,17 @@ const getQuestion = (id) => {
   return db.getQuestion(id);
 };
 
+const getScores = async () => {
+  return (await db.getScores()).rows;
+};
+
+const getScore = async (email, id) => {
+  return (await db.getScore(email, id)).rows;
+};
+
+const setScore = async (quizTaker, quizId, score) => {
+  return await db.setScore(quizTaker, quizId, score);
+};
 exports.getCustomers = getCustomers;
 exports.addCustomer = addCustomer;
 exports.getQuiz = getQuiz;
@@ -75,3 +86,6 @@ exports.getQuestions = getQuestions;
 exports.setQuestion = setQuestion;
 exports.getQuestion = getQuestion;
 exports.login = login;
+exports.getScores = getScores;
+exports.getScore = getScore;
+exports.setScore = setScore;
