@@ -64,22 +64,26 @@ app.post("/quizzes", (req, res) => {
   api.addQuiz(name, category).then((x) => res.json(x));
 });
 
-app.post("/score", (req, res) => {
-  let email = req.body.email;
-  let id = Number(req.body.id);
-  let score = Number(req.body.score);
-
-  api.pushScore(email, id, score);
-  res.json({ message: "Score stored succesfully." });
+app.get("/scores", async (req, res) => {
+  let scores = await api.getScores();
+  res.json(scores);
 });
 
-app.get("/scores/:quiztaker/:quizid", (req, res) => {
+app.get("/score/:quiztaker/:quizid", (req, res) => {
   let email = req.params.quiztaker;
   let id = Number(req.params.quizid);
 
-  let scores = api.getScores(email, id);
+  let scores = api.getScore(email, id);
 
   res.json(scores);
+});
+
+app.post("/score", async (req, res) => {
+  const quizTaker = req.body.quizTaker;
+  const quizId = Number(req.body.quizId);
+  const score = Number(req.body.score);
+  await api.setScore(quizTaker, quizId, score);
+  res.json({ message: "Score set succesfully" });
 });
 
 app.get("/customers", (req, res) => {
