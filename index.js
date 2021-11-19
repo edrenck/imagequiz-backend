@@ -48,11 +48,11 @@ app.get("/quizzes", async (req, res) => {
   res.json(quizzes);
 });
 
-app.get("/quizzes/:id", async (req, res) => {
-  let id = req.params.id;
-  let quiz = await api.getQuiz(id);
+app.get("/quiz/:name", async (req, res) => {
+  let name = req.params.name;
+  let quiz = await api.getQuiz(name);
   if (quiz.length === 0) {
-    res.json({ message: "Invalid id." });
+    res.json({ message: "Invalid name." });
   } else {
     res.json(quiz);
   }
@@ -79,10 +79,10 @@ app.get("/scores/:quiztaker/:quizid", (req, res) => {
 });
 
 app.post("/score", async (req, res) => {
-  const quizTaker = req.body.quizTaker;
+  const email = req.body.email;
   const quizId = Number(req.body.quizId);
   const score = Number(req.body.score);
-  await api.setScore(quizTaker, quizId, score);
+  await api.setScore(email, quizId, score);
   res.json({ message: "Score set succesfully" });
 });
 

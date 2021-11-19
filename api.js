@@ -8,8 +8,8 @@ const getCustomers = () => {
   return db.getCustomers();
 };
 
-const getQuiz = (id) => {
-  return db.getQuiz(id);
+const getQuiz = (name) => {
+  return db.getQuiz(name);
 };
 
 const login = async (email, password) => {

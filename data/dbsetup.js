@@ -1,9 +1,9 @@
 const { flowers } = require("./flowers");
 const { Pool } = require("pg");
 const fs = require("fs");
-require("dotenv").config({ path: "./data/.env" });
+require("dotenv").config({ path: "./.env" });
 const { quizzes } = require("./data");
-let create_db_structure_sql = fs.readFileSync("./data/db.sql").toString();
+let create_db_structure_sql = fs.readFileSync("./db.sql").toString();
 const connectionString = `postgres://${process.env.DATABASEUSERNAME}:${process.env.PASSWORD}@${process.env.HOST}:${process.env.DATABASEPORT}/${process.env.DATABASE}`;
 console.log(connectionString);
 const connection = {

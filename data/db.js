@@ -40,9 +40,13 @@ let getQuizzes = () => {
   return pool.query("select * from imagequiz.quiz");
 };
 
-let getQuiz = (id) => {
+let getQuiz = (name) => {
   return pool
-    .query(`select * from imagequiz.quiz where id = ${id}`)
+    .query(
+      `select q2.* from imagequiz.quiz q inner join imagequiz.quiz_question qq on q.id = qq.quiz_id
+	inner join imagequiz.question q2 on q2.id = qq.question_id where q.name = $1`,
+      [name]
+    )
     .then((x) => x.rows);
 };
 
@@ -117,10 +121,10 @@ let getScore = async (email, id) => {
   );
 };
 
-let setScore = async (quizTaker, quizId, score) => {
+let setScore = async (email, quizId, score) => {
   return await pool.query(
-    `insert into imagequiz.score(quizTaker, quizId, score) values ($1, $2, $3)`,
-    [quizTaker, quizId, score]
+    `insert into imagequiz.score(customer_id, quiz_id, score) values ((select id from imagequiz.customer where email = $1), $2, $3)`,
+    [email, quizId, score]
   );
 };
 
