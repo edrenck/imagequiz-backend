@@ -26,6 +26,7 @@ app.post("/login", async (req, res) => {
   let email = req.body.email;
   let password = String(req.body.password);
   let validLogin = await api.login(email, password);
+  console.log(validLogin);
   if (validLogin) {
     res.json({ message: "User logged in succesfully.", isvalid: true });
   } else {
@@ -80,10 +81,15 @@ app.get("/scores/:quiztaker/:quizid", (req, res) => {
 
 app.post("/score", async (req, res) => {
   const email = req.body.email;
-  const quizId = Number(req.body.quizId);
+  const quizName = req.body.quizName;
   const score = Number(req.body.score);
-  await api.setScore(email, quizId, score);
-  res.json({ message: "Score set succesfully" });
+  api
+    .setScore(email, quizName, score)
+    .then((x) => res.json({ message: "Score set succesfully" }))
+    .catch((e) => {
+      console.log(e);
+      res.status(500).json({ message: "Something went wrong" });
+    });
 });
 
 app.get("/customers", (req, res) => {

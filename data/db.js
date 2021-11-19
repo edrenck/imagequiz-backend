@@ -121,10 +121,10 @@ let getScore = async (email, id) => {
   );
 };
 
-let setScore = async (email, quizId, score) => {
+let setScore = async (email, quizName, score) => {
   return await pool.query(
-    `insert into imagequiz.score(customer_id, quiz_id, score) values ((select id from imagequiz.customer where email = $1), $2, $3)`,
-    [email, quizId, score]
+    `insert into imagequiz.score(customer_id, quiz_id, score) values ((select id from imagequiz.customer where email = $1), (select id from imagequiz.quiz where name = $2), $3)`,
+    [email, quizName, score]
   );
 };
 
